@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  res.sendFile(path.join(viewsPath, "login.html"));
+  res.sendFile(path.join(viewsPath, "session", "login.html"));
 });
 
 router.post(
@@ -23,15 +23,24 @@ router.post(
     try {
       const userData = new LoginForm(req.body);
       const { user, token } = await login(userData);
-      res.status(200).redirect("/chatrooms");
+      res
+        .status(200)
+        .cookie("name", user.name)
+        .cookie('email', user.email)
+        .cookie('token', `Bearer ${token}`)
+        .redirect("/chatrooms");
     } catch (error) {
-      res.status(400).redirect("/login");
+      res.status(400).render("error", {
+        title: "Login failed",
+        message: error,
+        newLocation: "/login"
+      });
     }
   }
 );
 
 router.get("/signin", (req, res) => {
-  res.sendFile(path.join(viewsPath, "signin.html"));
+  res.sendFile(path.join(viewsPath, "session", "signin.html"));
 });
 
 router.get("/logout", (req, res) => {

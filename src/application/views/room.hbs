@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <h1>Room {{roomId}}</h1>
+  <ul>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/chatrooms/1">Room 1</a></li>
+    <li><a href="/chatrooms/2">Room 2</a></li>
+  </ul>
+  <ul>
+    {{messages}}
+  </ul>
+  <form name="chatForm" action="/chatrooms/{{roomId}}/publishMessage" method="POST">
+    <input placeholder="message" name="message" type="text">
+    <button>Submit</button>
+  </form>
+</body>
+
+</html>

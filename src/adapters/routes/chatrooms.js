@@ -1,12 +1,34 @@
 const express = require("express");
-const path = require("path");
-const { viewsPath } = require("../../application/config/environment");
 
 const router = express.Router();
-const sectionPath = "chatrooms";
+
+router.param("roomId", function(req, res, next, roomId) {
+  req.pathParams = { ...req.pathParams, roomId };
+  next();
+});
 
 router.get("/", (req, res) => {
-  res.sendFile(path.join(viewsPath, sectionPath, "index.html"));
+  res.render("chatrooms");
+});
+
+router.get("/:roomId", (req, res) => {
+  const roomId = req.pathParams.roomId;
+  if (!roomId) {
+    res.render("chatrooms");
+  }
+  res.render("room", {
+    roomId
+  });
+});
+
+router.get("/chatrooms/:roomId/publishMessage", (req, res) => {
+  const roomId = req.pathParams.roomId;
+  if (!roomId) {
+    res.render("chatrooms");
+  }
+  res.render("room", {
+    roomId
+  });
 });
 
 module.exports = router;

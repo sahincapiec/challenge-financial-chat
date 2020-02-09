@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <h1>{{title}}</h1>
+  <p>{{message}}</p>
+  <input type="hidden" id="newLocation" value="{{newLocation}}">
+  <script>
+    setTimeout(function () { window.location = document.getElementById('newLocation').value; }, 3000);
+  </script>
+</body>
+
+</html>
