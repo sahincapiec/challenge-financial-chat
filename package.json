@@ -2,7 +2,10 @@
   "name": "challenge-financial-chat",
   "version": "1.0.0",
   "description": "allow several users to talk in a chatroom and also to get stock quotes from an API using a specific command.",
-  "main": "index.js",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "npx nodemon src/app.js -e js,html"
+  },
   "author": "Samir Hincapié",
   "license": "MIT",
   "keywords": [
@@ -13,7 +16,10 @@
     "quote"
   ],
   "dependencies": {
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.11",
+    "validator": "^12.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
