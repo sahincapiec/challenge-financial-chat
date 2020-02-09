@@ -1,0 +1,15 @@
+{
+  "name": "challenge-financial-chat",
+  "version": "1.0.0",
+  "description": "allow several users to talk in a chatroom and also to get stock quotes from an API using a specific command.",
+  "main": "index.js",
+  "author": "Samir Hincapié",
+  "license": "MIT",
+  "keywords": [
+    "financial",
+    "chat",
+    "bot",
+    "stock",
+    "quote"
+  ]
+}
