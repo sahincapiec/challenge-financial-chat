@@ -46,21 +46,14 @@ userSchema.pre("save", async function(next) {
   next();
 });
 
-userSchema.methods.generateAuthToken = function() {
+userSchema.methods.generateAuthToken = async function() {
   const user = this;
   const token = jsonWebToken.sign({ _id: user._id.toString() }, tokenSign, {
     expiresIn: tokenExpiration
   });
-
   user.tokens = user.tokens.concat({ token });
-  return new Promise((resolve, reject) => {
-    user
-      .save()
-      .then(user => {
-        resolve({ user, token });
-      })
-      .catch(error => reject(new Error(error.message)));
-  });
+  await user.save();
+  return { user, token };
 };
 
 module.exports = userSchema;

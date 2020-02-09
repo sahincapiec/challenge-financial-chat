@@ -1,29 +1,21 @@
 const User = require("../repository/user");
 
-const create = userData => {
-  return new Promise((resolve, reject) => {
+const create = async userData => {
+  try {
     const user = new User(userData);
-    user
-      .save()
-      .then(user =>
-        user
-          .generateAuthToken()
-          .then(({ user, token }) => resolve({ user, token }))
-          .catch(error => reject(new Error(error.message)))
-      )
-      .catch(error => {
-        reject(
-          validateNameError(error.errors.name) ||
-            validateEmailError(error.errors.email) ||
-            validatePasswordError(error.errors.password) ||
-            new Error("The given user is invalid.")
-        );
-      });
-  });
+    await user.save();
+    await user.generateAuthToken();
+    return { user, token };
+  } catch (error) {
+    throw validateNameError(error.errors) ||
+      validateEmailError(error.errors) ||
+      validatePasswordError(error.errors) ||
+      new Error(error.message);
+  }
 };
 
 const validateEmailError = error => {
-  if (error) {
+  if (error && error.email) {
     switch (error.kind) {
       case "user defined":
         return new Error("The email is invalid.");
@@ -36,7 +28,7 @@ const validateEmailError = error => {
 };
 
 const validatePasswordError = error => {
-  if (error) {
+  if (error && error.password) {
     switch (error.kind) {
       case "minlength":
         return new Error(
@@ -51,7 +43,7 @@ const validatePasswordError = error => {
 };
 
 const validateNameError = error => {
-  if (error) {
+  if (error && error.name) {
     switch (error.kind) {
       case "required":
         return new Error("The name is required.");
@@ -61,17 +53,15 @@ const validateNameError = error => {
   }
 };
 
-const login = ({ email, password }) => {
-  return new Promise((resolve, reject) => {
-    User.findByCredentials(email, password)
-      .then(user =>
-        user
-          .generateAuthToken()
-          .then(({ user, token }) => resolve({ user, token }))
-          .catch(error => reject(new Error(error.message)))
-      )
-      .catch(error => reject(new Error(error.message)));
-  });
+const login = async ({ email, password }) => {
+  const user = await User.findByCredentials(email, password);
+  if (user) {
+    const token = await user.generateAuthToken();
+    if (token) {
+      return { user, token };
+    }
+  }
+  new Error(error.message);
 };
 
 module.exports = { create, login };

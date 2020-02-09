@@ -3,19 +3,21 @@ const { create, login } = require("../../application/services/user");
 const User = require("../dto/user");
 
 const router = express.Router();
+const jsonMiddleware = express.json();
 
-router.post("/createUser", (req, res) => {
+router.post("/createUser", jsonMiddleware, async (req, res) => {
   const userData = req.body;
-  create(userData)
-    .then(({ user, token }) => res.status(201).send(new User(user, token)))
-    .catch(error =>
-      res.status(400).send({
-        error: error.message
-      })
-    );
+  try {
+    const { user, token } = await create(userData);
+    res.status(201).send(new User(user, token));
+  } catch (error) {
+    res.status(400).send({
+      error: error.message
+    });
+  }
 });
 
-router.post("/loginUSer", (req, res) => {
+router.post("/loginUSer", jsonMiddleware, (req, res) => {
   const userData = req.body;
   login(userData)
     .then(({ user, token }) => res.status(200).send(new User(user, token)))

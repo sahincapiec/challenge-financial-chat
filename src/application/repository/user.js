@@ -2,22 +2,19 @@ const db = require("../../adapters/db/mongoose");
 const userSchema = require("./schema/user");
 const bcrypt = require("bcryptjs");
 
-userSchema.statics.findByCredentials = (email, password) => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ email })
-      .then(user => {
-        if (user && isMatch(password, user.password)) {
-          resolve(user);
-        }
-        reject(new Error("Unable to login"));
-      })
-      .catch(error => reject(new Error(error.message)));
-  });
+userSchema.statics.findByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+
+  if (user && (await isMatch(password, user.password))) {
+    return user;
+  }
+
+  throw new Error("Unable to login");
 };
 
 const User = db.model("User", userSchema);
 
-const isMatch = (string, hash) => {
+const isMatch = async (string, hash) => {
   return bcrypt.compare(string, hash);
 };
 

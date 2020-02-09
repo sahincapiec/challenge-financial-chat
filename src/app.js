@@ -7,8 +7,6 @@ const { defaultPort } = require("./application/config/environment");
 const app = express();
 const port = process.env.PORT || defaultPort;
 
-app.use(express.json());
-
 app.use("/chatrooms", chatroomsRoutes);
 app.use("/commands", commandsRoutes);
 app.use("/", indexRoutes);
