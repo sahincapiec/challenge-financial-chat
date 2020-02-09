@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { viewsPath } = require("../config/environment");
+const { viewsPath } = require("../../application/config/environment");
 
 const router = express.Router();
 

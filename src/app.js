@@ -1,9 +1,10 @@
 const express = require("express");
-const indexRoutes = require("./routes/index");
-const chatroomsRoutes = require("./routes/chatrooms");
+const indexRoutes = require("./adapters/routes/index");
+const chatroomsRoutes = require("./adapters/routes/chatrooms");
+const { defaultPort } = require("./application/config/environment");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || defaultPort;
 
 app.use("/chatrooms", chatroomsRoutes);
 app.use("/", indexRoutes);
