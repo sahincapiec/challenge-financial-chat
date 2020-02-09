@@ -1,6 +1,8 @@
 const db = require("../../../adapters/db/mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
+const jsonWebToken = require("jsonwebtoken");
+const { tokenExpiration, tokenSign } = require("../../config/environment");
 
 const userSchema = new db.Schema({
   name: {
@@ -25,7 +27,15 @@ const userSchema = new db.Schema({
     required: true,
     minlength: 8,
     trim: true
-  }
+  },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true
+      }
+    }
+  ]
 });
 
 userSchema.pre("save", async function(next) {
@@ -35,5 +45,22 @@ userSchema.pre("save", async function(next) {
   }
   next();
 });
+
+userSchema.methods.generateAuthToken = function() {
+  const user = this;
+  const token = jsonWebToken.sign({ _id: user._id.toString() }, tokenSign, {
+    expiresIn: tokenExpiration
+  });
+
+  user.tokens = user.tokens.concat({ token });
+  return new Promise((resolve, reject) => {
+    user
+      .save()
+      .then(user => {
+        resolve({ user, token });
+      })
+      .catch(error => reject(new Error(error.message)));
+  });
+};
 
 module.exports = userSchema;

@@ -3,7 +3,8 @@ const { dbUrl } = require("../../application/config/environment");
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useUnifiedTopology: true
 });
 
 module.exports = mongoose;
