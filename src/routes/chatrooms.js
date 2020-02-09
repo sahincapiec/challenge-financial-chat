@@ -3,13 +3,10 @@ const path = require("path");
 const { viewsPath } = require("../config/environment");
 
 const router = express.Router();
+const sectionPath = "chatrooms";
 
 router.get("/", (req, res) => {
-  res.sendFile(path.join(viewsPath, "/index.html"));
-});
-
-router.get("*", (req, res) => {
-  res.sendFile(path.join(viewsPath, "/404.html"));
+  res.sendFile(path.join(viewsPath, sectionPath, "index.html"));
 });
 
 module.exports = router;
