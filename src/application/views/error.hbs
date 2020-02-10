@@ -5,10 +5,13 @@
 
 <body>
   <h1>{{title}}</h1>
+  <ul>
+    <li><a href="/">Home</a></li>
+  </ul>
   <p>{{message}}</p>
   <input type="hidden" id="newLocation" value="{{newLocation}}">
   <script>
-    setTimeout(function () { window.location = document.getElementById('newLocation').value; }, 3000);
+    setTimeout(function () { window.location = document.getElementById('newLocation').value; }, 5000);
   </script>
 </body>
 

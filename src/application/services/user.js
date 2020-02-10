@@ -1,4 +1,6 @@
+const jsonWebToken = require("jsonwebtoken");
 const User = require("../repository/user");
+const { tokenSign } = require("../config/environment");
 
 const create = async userData => {
   try {
@@ -64,4 +66,27 @@ const login = async ({ email, password }) => {
   new Error(error.message);
 };
 
-module.exports = { create, login };
+const authByCookies = async (req, res, next) => {
+  try {
+    const token = req.cookies.token.replace("Bearer ", "");
+    const decodedToken = jsonWebToken.verify(token, tokenSign);
+    const user = await User.findOne({
+      _id: decodedToken._id,
+      "tokens.token": token
+    });
+    if (!user) {
+      throw new Error();
+    }
+    req.token = token;
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).render("error", {
+      title: "Unauthenticated",
+      message: "Please authenticate.",
+      newLocation: "/login"
+    });
+  }
+};
+
+module.exports = { authByCookies, create, login };

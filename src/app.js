@@ -1,5 +1,4 @@
 const express = require("express");
-const hbs = require("hbs");
 const indexRoutes = require("./adapters/routes/index");
 const chatroomsRoutes = require("./adapters/routes/chatrooms");
 const commandsRoutes = require("./adapters/routes/commands");
