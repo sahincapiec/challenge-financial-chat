@@ -6,7 +6,7 @@ const create = async userData => {
   try {
     const user = new User(userData);
     await user.save();
-    await user.generateAuthToken();
+    const token = await user.generateAuthToken();
     return { user, token };
   } catch (error) {
     throw validateNameError(error.errors) ||

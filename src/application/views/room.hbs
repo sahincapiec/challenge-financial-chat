@@ -11,7 +11,9 @@
     <li><a href="/chatrooms/2">Room 2</a></li>
   </ul>
   <ul>
-    {{messages}}
+    {{#each messages}}
+      <li>{{this}}</li>
+    {{/each}}
   </ul>
   <form name="chatForm" action="/chatrooms/{{roomId}}/publishMessage" method="POST">
     <input placeholder="message" name="message" type="text">
