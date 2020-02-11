@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  res.sendFile(path.join(viewsPath, "session", "login.html"));
+  res.status(200).sendFile(path.join(viewsPath, "session", "login.html"));
 });
 
 router.post(
@@ -80,12 +80,13 @@ router.get("/logout", async (req, res) => {
     );
     await req.user.save();
     res
+      .status(200)
       .clearCookie("name")
       .clearCookie("email")
       .clearCookie("token")
       .sendFile(path.join(viewsPath, "index.html"));
   } catch (error) {
-    res.render("error", {
+    res.status(500).render("error", {
       title: "Logout failed",
       message: error.message,
       newLocation: "/"

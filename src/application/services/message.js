@@ -80,12 +80,7 @@ const loadMessages = async roomId => {
     })
     .sort({ timestamp: -1 })
     .limit(50);
-  return messages.map(
-    message =>
-      `(${new Date(message.timestamp)})${message.owner.name}: ${
-        message.message
-      }`
-  );
+  return messages;
 };
 
 module.exports = { create, loadMessages };

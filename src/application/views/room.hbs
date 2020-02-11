@@ -10,15 +10,41 @@
     <li><a href="/chatrooms/1">Room 1</a></li>
     <li><a href="/chatrooms/2">Room 2</a></li>
   </ul>
-  <ul>
-    {{#each messages}}
-      <li>{{this}}</li>
-    {{/each}}
+  <ul id="messages">
   </ul>
-  <form name="chatForm" action="/chatrooms/{{roomId}}/publishMessage" method="POST">
+  <form name="chatForm" action="/chatrooms/{{roomId}}/publishMessage" method="POST" onsubmit="loadMessages()">
     <input placeholder="message" name="message" type="text">
     <button>Submit</button>
   </form>
+  <input type="hidden" id="roomId" value="{{roomId}}">
+  <script>
+    setInterval(loadMessages, 5000);
+
+    async function loadMessages () {
+      const roomId = document.getElementById('roomId').value;
+      const response = await fetch(`http://localhost:3000/queries/getMessages/${roomId}`, {
+        "credentials": "include",
+        "headers": {
+          "Accept": "*/*",
+          "Accept-Language": "es-ES,es;q=0.8,en-US;q=0.5,en;q=0.3",
+          "Content-Type": "application/json; charset=utf-8",
+          "Upgrade-Insecure-Requests": "1",
+          "Cookie": document.cookie
+        },
+        "referrer": `http://localhost:3000/queries/getMessages/${roomId}`,
+        "method": "GET",
+        "mode": "cors"
+      });
+      const messages = await response.json();
+      const formattedMessages = messages.reduce(
+        (prev, current) =>
+          `${prev}<li>(${new Date(current.timestamp)})${current.owner.name}: ${
+          current.message
+          }</li>`
+      ,'');
+      document.getElementById('messages').innerHTML = formattedMessages;
+    }
+  </script>
 </body>
 
 </html>

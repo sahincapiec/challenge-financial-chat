@@ -26,11 +26,17 @@ router.get("/:roomId", async (req, res) => {
   if (!roomId) {
     res.render("chatrooms");
   }
-  const messages = await loadMessages(roomId);
-  res.render("room", {
-    roomId,
-    messages
-  });
+  try {
+    res.status(200).render("room", {
+      roomId
+    });
+  } catch (error) {
+    res.status(500).render("error", {
+      title: "Process Failed",
+      message: "Failed loading messages",
+      newLocation: `/chatrooms/${roomId}`
+    });
+  }
 });
 
 router.post(
@@ -43,13 +49,17 @@ router.post(
     if (!roomId) {
       res.render("chatrooms");
     }
-    const publishMessageForm = new PublishMessageForm(req.body);
-    await create(publishMessageForm.message, req.user, roomId);
-    const messages = await loadMessages(roomId);
-    res.render("room", {
-      roomId,
-      messages
-    });
+    try {
+      const publishMessageForm = new PublishMessageForm(req.body);
+      await create(publishMessageForm.message, req.user, roomId);
+      res.status(200).redirect(`/chatrooms/${roomId}`);
+    } catch (error) {
+      res.status(500).render("error", {
+        title: "Process Failed",
+        message: "Failed loading messages",
+        newLocation: `/chatrooms/${roomId}`
+      });
+    }
   }
 );
 
