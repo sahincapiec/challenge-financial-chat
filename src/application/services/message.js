@@ -1,8 +1,10 @@
 const Message = require("../repository/message");
+const { processCommand } = require("./bot");
 
 const create = async (messageForPublish, user, roomId) => {
   if (messageForPublish && isCommand(messageForPublish)) {
-    return processCommand(messageForPublish);
+    processCommand(messageForPublish, roomId);
+    return;
   }
   try {
     const message = new Message({
@@ -70,10 +72,6 @@ const isCommand = messageForPublish => {
   return messageForPublish.match(/[/]stock[=]/);
 };
 
-const processCommand = messageForPublish => {
-  console.log(messageForPublish);
-};
-
 const loadMessages = async roomId => {
   const messages = await Message.find({ roomId })
     .populate({
@@ -84,7 +82,9 @@ const loadMessages = async roomId => {
     .limit(50);
   return messages.map(
     message =>
-      `(${new Date(message.timestamp)})${message.owner.name}: ${message.message}`
+      `(${new Date(message.timestamp)})${message.owner.name}: ${
+        message.message
+      }`
   );
 };
 

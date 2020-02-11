@@ -16,11 +16,13 @@
     "quote"
   ],
   "dependencies": {
+    "amqplib": "^0.5.5",
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "hbs": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",
+    "request": "^2.88.0",
     "validator": "^12.2.0"
   },
   "devDependencies": {
