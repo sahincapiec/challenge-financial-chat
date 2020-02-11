@@ -18,9 +18,7 @@
   </form>
   <input type="hidden" id="roomId" value="{{roomId}}">
   <script>
-    setInterval(loadMessages, 5000);
-
-    async function loadMessages () {
+    async function loadMessages() {
       const roomId = document.getElementById('roomId').value;
       const response = await fetch(`http://localhost:3000/queries/getMessages/${roomId}`, {
         "credentials": "include",
@@ -41,9 +39,13 @@
           `${prev}<li>(${new Date(current.timestamp)})${current.owner.name}: ${
           current.message
           }</li>`
-      ,'');
+        , '');
       document.getElementById('messages').innerHTML = formattedMessages;
     }
+
+    loadMessages();
+
+    setInterval(loadMessages, 5000);
   </script>
 </body>
 
