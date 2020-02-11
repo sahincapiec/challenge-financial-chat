@@ -1,7 +1,7 @@
 const express = require("express");
-const indexRoutes = require("./adapters/routes/index");
-const chatroomsRoutes = require("./adapters/routes/chatrooms");
-const commandsRoutes = require("./adapters/routes/commands");
+const indexRoutes = require("./application/routes/index");
+const chatroomsRoutes = require("./application/routes/chatrooms");
+const commandsRoutes = require("./application/routes/commands");
 const { defaultPort } = require("./application/config/environment");
 const { viewsPath } = require("./application/config/environment");
 const startSubscribers = require("./application/subscribers/subscribers");

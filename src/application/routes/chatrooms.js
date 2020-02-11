@@ -1,8 +1,8 @@
 const express = require("express");
-const PublishMessageForm = require("../dto/publishMessageForm");
-const { authByCookies } = require("../../application/services/user");
-const cookieParser = require("../../application/services/cookie");
-const { create, loadMessages } = require("../../application/services/message");
+const PublishMessageForm = require("../../adapters/dto/publishMessageForm");
+const { authByCookies } = require("../services/user");
+const cookieParser = require("../services/cookie");
+const { create, loadMessages } = require("../services/message");
 
 const router = express.Router();
 

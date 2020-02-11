@@ -1,6 +1,6 @@
 const express = require("express");
-const { create, login } = require("../../application/services/user");
-const User = require("../dto/user");
+const { create, login } = require("../services/user");
+const User = require("../../adapters/dto/user");
 
 const router = express.Router();
 const jsonMiddleware = express.json();

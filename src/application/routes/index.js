@@ -1,10 +1,10 @@
 const express = require("express");
 const path = require("path");
-const { viewsPath } = require("../../application/config/environment");
-const LoginForm = require("../dto/loginForm");
-const SigninForm = require("../dto/signinForm");
-const { authByCookies, login, create } = require("../../application/services/user");
-const cookieParser = require("../../application/services/cookie");
+const { viewsPath } = require("../config/environment");
+const LoginForm = require("../../adapters/dto/loginForm");
+const SigninForm = require("../../adapters/dto/signinForm");
+const { authByCookies, login, create } = require("../services/user");
+const cookieParser = require("../services/cookie");
 
 const router = express.Router();
 
