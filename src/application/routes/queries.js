@@ -20,14 +20,6 @@ router.get("/getMessages/:roomId", async (req, res) => {
   }
   try {
     const messages = await loadMessages(roomId);
-    const formattedMessages = messages.map(message => ({
-      message: message.message,
-      roomId,
-      timestamp: new Date(message.timestamp),
-      owner: {
-        name: message.owner.name
-      }
-    }));
     res.status(200).send(messages);
   } catch (error) {
     res.status(400).send({ error: error.messages });
