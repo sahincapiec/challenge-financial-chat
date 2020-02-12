@@ -22,7 +22,7 @@ router.get("/getMessages/:roomId", async (req, res) => {
     const messages = await loadMessages(roomId);
     res.status(200).send(messages);
   } catch (error) {
-    res.status(400).send({ error: error.messages });
+    res.status(400).send({ error: error.message });
   }
 });
 

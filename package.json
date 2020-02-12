@@ -4,7 +4,9 @@
   "description": "allow several users to talk in a chatroom and also to get stock quotes from an API using a specific command.",
   "main": "src/app.js",
   "scripts": {
-    "dev": "npx nodemon src/app.js -e js,html"
+    "start": "node src/server.js",
+    "dev": "npx nodemon src/server.js -e js",
+    "test": "npx jest --watch"
   },
   "author": "Samir Hincapié",
   "license": "MIT",
@@ -26,6 +28,8 @@
     "validator": "^12.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   }
 }
