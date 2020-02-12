@@ -1,4 +1,4 @@
-1# Challenge Financial Chat
+# Challenge Financial Chat
 
 This application allow several users to talk in a chatroom and also to get stock quotes from https://stooq.com/ using a specific command.
 
